@@ -16,7 +16,7 @@ export const Footer = () => {
                     <div>
                         <div className="relative h-11 w-44 mb-4">
                             <Image
-                                src="/images/boxfylogo.png"
+                                src="/images/boxfylogo-white.png"
                                 alt="Boxfy AI Creative Morph"
                                 fill
                                 priority

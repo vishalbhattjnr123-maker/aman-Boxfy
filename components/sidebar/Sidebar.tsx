@@ -55,7 +55,7 @@ export function Sidebar() {
                 <Link href="/" className="flex items-center gap-2 group">
                     <div className="relative h-9 w-32">
                         <Image
-                            src="/images/boxfylogo.png"
+                            src="/images/boxfylogo-white.png"
                             alt="Boxfy AI Creative Morph"
                             fill
                             priority
@@ -98,7 +98,7 @@ export function Sidebar() {
                         <div className="flex justify-between items-center px-5 py-4 border-b border-white/10">
                             <div className="relative h-10 w-40">
                                 <Image
-                                    src="/images/boxfylogo.png"
+                                    src="/images/boxfylogo-white.png"
                                     alt="Boxfy AI Creative Morph"
                                     fill
                                     priority
@@ -215,7 +215,7 @@ export function Sidebar() {
                         {isCollapsed ? (
                             <div className="relative h-9 w-10 mx-auto">
                                 <Image
-                                    src="/images/boxfylogo.png"
+                                    src="/images/boxfylogo-white.png"
                                     alt="Boxfy AI"
                                     fill
                                     priority
@@ -229,7 +229,7 @@ export function Sidebar() {
                                 className="relative h-10 w-44"
                             >
                                 <Image
-                                    src="/images/boxfylogo.png"
+                                    src="/images/boxfylogo-white.png"
                                     alt="Boxfy AI Creative Morph"
                                     fill
                                     priority
