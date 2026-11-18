@@ -12,7 +12,7 @@ export default function TeamPage() {
             {/* Showcase from our creators */}
             <div className="pb-16 -mt-8">
                 <MovieRow
-                    title="🎬 Flagship Productions by Boxfy Team"
+                    title="🎬 Flagship Productions & Original Releases"
                     movies={[movies[0], movies[12], movies[31], movies[46], movies[7], movies[21]]}
                 />
             </div>
