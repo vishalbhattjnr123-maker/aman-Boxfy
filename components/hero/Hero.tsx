@@ -255,16 +255,18 @@ export const Hero = () => {
                 </button>
             </div>
 
-            {/* Bottom Slide Indicators */}
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
+            {/* Bottom Slide Indicators - Futuristic Glow Dots */}
+            <div className="absolute bottom-6 sm:bottom-8 md:bottom-9 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl">
                 {heroSlides.map((slide, idx) => (
                     <button
                         key={slide.id || idx}
                         type="button"
                         onClick={() => setCurrentIndex(idx)}
                         aria-label={`Go to slide ${idx + 1}`}
-                        className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                            idx === currentIndex ? "w-8 bg-red-600 shadow-md shadow-red-600/50" : "w-3 bg-zinc-600 hover:bg-white"
+                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                            idx === currentIndex
+                                ? "w-8 bg-gradient-to-r from-[#ff2d87] via-[#a855f7] to-[#6366f1] shadow-[0_0_12px_rgba(255,45,135,0.8)] scale-105"
+                                : "w-2 bg-white/30 hover:bg-white/80 hover:scale-125"
                         }`}
                     />
                 ))}

@@ -772,6 +772,7 @@ export const movies = [
 export const heroContent = movies[0];
 
 export const categorizedMovies: Record<string, any[]> = {
+    "Trending Now": [movies[0], movies[12], movies[31], movies[46], movies[7], movies[21], movies[40]].filter(Boolean),
     "3D Animation Productions": movies.filter(m => m.id >= "movie-001" && m.id <= "movie-007"),
     "AI Cinematic Sci-Fi Films": movies.filter(m => m.id >= "movie-012" && m.id <= "movie-020"),
     "Kuku Boy Superhero Series": movies.filter(m => m.id >= "movie-031" && m.id <= "movie-039"),
@@ -780,7 +781,6 @@ export const categorizedMovies: Record<string, any[]> = {
     "AI Commercials & Brand Ads": movies.filter(m => m.id >= "movie-021" && m.id <= "movie-027"),
     "AI Music & Visualizers": movies.filter(m => m.id >= "movie-040" && m.id <= "movie-045"),
     "Kids Animation & Cartoons": movies.filter(m => m.id >= "movie-028" && m.id <= "movie-030"),
-    "Trending Now": [movies[0], movies[12], movies[31], movies[46], movies[7], movies[21], movies[40]].filter(Boolean),
     "Top Rated Releases": [movies[1], movies[13], movies[32], movies[47], movies[8], movies[22], movies[41]].filter(Boolean),
 };
 
