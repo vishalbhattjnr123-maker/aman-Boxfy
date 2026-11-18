@@ -60,8 +60,8 @@ export const Hero = () => {
 
     const videoType = getVideoType(activeSlide.videoUrl || "");
     const videoId = getYouTubeId(activeSlide.videoUrl || "");
-    const fallbackBackdrop = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : "/images/hero.jpg";
-    const backdropSrc = imgError ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : (activeSlide.backdrop || fallbackBackdrop);
+    const fallbackBackdrop = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "/images/hero.jpg";
+    const backdropSrc = activeSlide.backdrop || fallbackBackdrop;
 
     const embedUrl = normalizeVideoUrl(activeSlide.videoUrl, videoType, {
         autoPlay: true,

@@ -30,7 +30,7 @@ export const VideoPlayer = ({
     const type = getVideoType(url);
     const videoId = getYouTubeId(url);
     const fallbackPoster = videoId
-        ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+        ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
         : poster || "";
 
     const normalizedUrl = normalizeVideoUrl(url, type, {
