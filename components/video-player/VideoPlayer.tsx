@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getVideoType, isDirectVideo, isIframeVideo, normalizeVideoUrl, getYouTubeId } from "@/lib/video";
-import { Play, Pause, Volume2, VolumeX, Maximize2, RotateCcw, ExternalLink, Sparkles } from "lucide-react";
+import { getVideoType, isDirectVideo, isIframeVideo, normalizeVideoUrl, getYouTubeId, getVideoPoster } from "@/lib/video";
+import { Play, Maximize2, RotateCcw, ExternalLink } from "lucide-react";
 
 interface VideoPlayerProps {
     url: string;
@@ -22,22 +22,25 @@ export const VideoPlayer = ({
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
-    const [isMuted, setIsMuted] = useState(false);
-    const [isCinemaMode, setIsCinemaMode] = useState(false);
+    const [origin, setOrigin] = useState("");
     const containerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setOrigin(window.location.origin);
+        }
+    }, []);
+
     const type = getVideoType(url);
-    const videoId = getYouTubeId(url);
-    const fallbackPoster = videoId
-        ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
-        : poster || "";
+    const fallbackPoster = poster || getVideoPoster({ poster, videoUrl: url });
 
     const normalizedUrl = normalizeVideoUrl(url, type, {
         autoPlay,
         muted: false,
         controls: true,
         playsInline: true,
+        origin,
     });
 
     useEffect(() => {
@@ -45,7 +48,7 @@ export const VideoPlayer = ({
         setError(false);
         const timer = setTimeout(() => {
             setIsLoading(false);
-        }, 800);
+        }, 600);
         return () => clearTimeout(timer);
     }, [url]);
 
@@ -81,17 +84,17 @@ export const VideoPlayer = ({
                     <div className="w-14 h-14 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center mx-auto mb-4 border border-red-500/30">
                         <RotateCcw className="w-6 h-6" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Unable to load playback</h3>
+                    <h3 className="text-xl font-bold mb-2">Video Protected / External Playback Required</h3>
                     <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
-                        The video embed is restricted by the provider or unavailable in this viewer.
+                        This video source restricts inline embedding or requires external stream authorization.
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-3">
                         <button
                             type="button"
                             onClick={() => setError(false)}
-                            className="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-sm font-semibold transition border border-white/10"
+                            className="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-sm font-semibold transition border border-white/10 cursor-pointer"
                         >
-                            Retry Playback
+                            Retry Player
                         </button>
                         {url.startsWith("http") && (
                             <a
@@ -101,7 +104,7 @@ export const VideoPlayer = ({
                                 className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition shadow-lg"
                             >
                                 <ExternalLink className="w-4 h-4" />
-                                <span>Watch on YouTube</span>
+                                <span>Watch on External Stream</span>
                             </a>
                         )}
                     </div>
@@ -113,16 +116,14 @@ export const VideoPlayer = ({
     return (
         <div
             ref={containerRef}
-            className={`relative w-full h-full flex items-center justify-center bg-black overflow-hidden select-none group ${
-                isCinemaMode ? "fixed inset-0 z-50 rounded-none" : "rounded-2xl"
-            }`}
+            className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden select-none group rounded-2xl"
         >
             {/* Ambient Cinematic Back-Glow */}
             {showCinemaGlow && (
-                <div className="absolute inset-0 -z-10 pointer-events-none opacity-40 blur-3xl bg-gradient-to-tr from-red-600/30 via-indigo-600/20 to-amber-500/20 scale-110" />
+                <div className="absolute inset-0 -z-10 pointer-events-none opacity-40 blur-3xl bg-gradient-to-tr from-pink-600/30 via-purple-600/20 to-indigo-500/20 scale-110" />
             )}
 
-            {/* Direct MP4 / HLS Video Element */}
+            {/* Direct MP4 / WebM / HLS Video Element */}
             {isDirectVideo(type) && (
                 <div className="relative w-full h-full">
                     <video
@@ -158,8 +159,8 @@ export const VideoPlayer = ({
                 </div>
             )}
 
-            {/* Iframe YouTube / Vimeo Video Element */}
-            {isIframeVideo(type) && (
+            {/* Iframe YouTube / Vimeo / Drive / Embed Video Element */}
+            {(isIframeVideo(type) || type === "unknown") && (
                 <div className="relative w-full h-full aspect-video flex items-center justify-center bg-black">
                     {isLoading && (
                         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/90">
@@ -175,6 +176,7 @@ export const VideoPlayer = ({
                         title={title || "Video Player"}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
+                        referrerPolicy="strict-origin-when-cross-origin"
                         className="w-full h-full border-0 absolute inset-0"
                         onLoad={() => setIsLoading(false)}
                         onError={() => setError(true)}
@@ -186,7 +188,7 @@ export const VideoPlayer = ({
             {title && (
                 <div className="absolute top-0 inset-x-0 p-4 md:p-6 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-between z-30">
                     <div className="flex items-center gap-3">
-                        <span className="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded shadow">
+                        <span className="bg-gradient-to-r from-pink-600 to-purple-600 text-white text-[10px] font-black px-2 py-0.5 rounded shadow">
                             BOXFY 4K
                         </span>
                         <h2 className="text-white text-sm md:text-base font-bold drop-shadow-md truncate max-w-md">
@@ -199,26 +201,11 @@ export const VideoPlayer = ({
                             type="button"
                             onClick={handleFullScreen}
                             title="Fullscreen"
-                            className="p-2 bg-black/60 hover:bg-black/90 backdrop-blur-md rounded-lg text-white border border-white/20 transition-transform hover:scale-105"
+                            className="p-2 bg-black/60 hover:bg-black/90 backdrop-blur-md rounded-lg text-white border border-white/20 transition-transform hover:scale-105 cursor-pointer"
                         >
                             <Maximize2 className="w-4 h-4" />
                         </button>
                     </div>
-                </div>
-            )}
-
-            {/* Unknown format fallback */}
-            {type === "unknown" && (
-                <div className="w-full h-full min-h-[360px] flex flex-col items-center justify-center text-white bg-zinc-950 p-6 rounded-2xl border border-white/10 text-center">
-                    <p className="text-zinc-400 mb-4">Unsupported video source format</p>
-                    <a
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold shadow-lg"
-                    >
-                        <ExternalLink className="w-4 h-4" /> Open Link Directly
-                    </a>
                 </div>
             )}
         </div>

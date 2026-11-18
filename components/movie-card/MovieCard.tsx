@@ -6,7 +6,7 @@ import { Play, Plus, Info, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useUser } from "@/components/providers/UserProvider";
-import { getYouTubeId } from "@/lib/video";
+import { getYouTubeId, getVideoPoster } from "@/lib/video";
 
 export interface Movie {
     id: string;
@@ -34,8 +34,7 @@ export const MovieCard = ({ movie, priority = false }: MovieCardProps) => {
     const { toggleMyList, isInMyList } = useUser();
     const inList = isInMyList(movie.id);
 
-    const videoId = getYouTubeId(movie.videoUrl || "");
-    const fallbackImage = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "/images/placeholder.jpg";
+    const fallbackImage = getVideoPoster(movie);
     const imageSrc = imgError ? fallbackImage : (movie.backdrop || movie.poster || fallbackImage);
 
     const handleCardClick = (e: React.MouseEvent) => {

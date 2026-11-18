@@ -8,7 +8,7 @@ import { movies } from "@/data/movies";
 import { useUser } from "@/components/providers/UserProvider";
 import { MovieRow } from "@/components/movie-row/MovieRow";
 import { useState } from "react";
-import { getYouTubeId } from "@/lib/video";
+import { getVideoPoster } from "@/lib/video";
 
 export default function DetailsPage() {
     const params = useParams();
@@ -55,8 +55,7 @@ export default function DetailsPage() {
     }
 
     const inList = isInMyList(movie.id);
-    const videoId = getYouTubeId(movie.videoUrl || "");
-    const fallbackImage = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "/images/placeholder.jpg";
+    const fallbackImage = getVideoPoster(movie);
     const backdropSrc = imgError ? fallbackImage : (movie.backdrop || movie.poster || fallbackImage);
 
     // Related content

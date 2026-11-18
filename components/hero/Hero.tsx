@@ -6,7 +6,7 @@ import { Play, Info, Plus, Check, VolumeX, Volume2, ChevronLeft, ChevronRight } 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { movies } from "@/data/movies";
-import { getVideoType, normalizeVideoUrl, getYouTubeId } from "@/lib/video";
+import { getVideoType, normalizeVideoUrl, getYouTubeId, isIframeVideo, getVideoPoster } from "@/lib/video";
 import { useUser } from "@/components/providers/UserProvider";
 
 export const Hero = () => {
@@ -59,8 +59,7 @@ export const Hero = () => {
     if (!activeSlide) return null;
 
     const videoType = getVideoType(activeSlide.videoUrl || "");
-    const videoId = getYouTubeId(activeSlide.videoUrl || "");
-    const fallbackBackdrop = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "/images/hero.jpg";
+    const fallbackBackdrop = getVideoPoster(activeSlide);
     const backdropSrc = activeSlide.backdrop || fallbackBackdrop;
 
     const embedUrl = normalizeVideoUrl(activeSlide.videoUrl, videoType, {
@@ -102,13 +101,14 @@ export const Hero = () => {
 
                     {/* Smooth background video playback */}
                     {showVideo && (
-                        videoType === "youtube" ? (
+                        isIframeVideo(videoType) ? (
                             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                                 <iframe
                                     key={`${currentIndex}-${isMuted}`}
                                     src={embedUrl}
                                     title={activeSlide.title}
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    referrerPolicy="strict-origin-when-cross-origin"
                                     className="w-[125vw] h-[125vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.35] md:scale-[1.25] pointer-events-none border-0"
                                 />
                             </div>
