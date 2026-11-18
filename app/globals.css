@@ -41,3 +41,16 @@ body {
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;
 }
+
+/* Hide Next.js Development Indicator ("N" overlay icon) */
+nextjs-portal,
+#nextjs-dev-tools,
+[data-nextjs-toast],
+[data-nextjs-dev-indicator],
+[data-next-badge],
+div[data-nextjs-router-announcer] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
