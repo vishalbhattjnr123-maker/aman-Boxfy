@@ -255,20 +255,24 @@ export const Hero = () => {
                 </button>
             </div>
 
-            {/* Bottom Slide Indicators - Futuristic Glow Dots */}
-            <div className="absolute bottom-6 sm:bottom-8 md:bottom-9 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl">
+            {/* Bottom Carousel Slide Indicators */}
+            <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 px-4 py-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 shadow-2xl">
                 {heroSlides.map((slide, idx) => (
                     <button
                         key={slide.id || idx}
                         type="button"
                         onClick={() => setCurrentIndex(idx)}
-                        aria-label={`Go to slide ${idx + 1}`}
-                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                            idx === currentIndex
-                                ? "w-8 bg-gradient-to-r from-[#ff2d87] via-[#a855f7] to-[#6366f1] shadow-[0_0_12px_rgba(255,45,135,0.8)] scale-105"
-                                : "w-2 bg-white/30 hover:bg-white/80 hover:scale-125"
-                        }`}
-                    />
+                        aria-label={`Slide ${idx + 1}`}
+                        className="p-1 cursor-pointer group flex items-center"
+                    >
+                        <span
+                            className={`block h-2 rounded-full transition-all duration-500 ${
+                                idx === currentIndex
+                                    ? "w-8 sm:w-10 bg-gradient-to-r from-[#ff2d87] via-[#a855f7] to-[#6366f1] shadow-[0_0_12px_rgba(255,45,135,0.9)]"
+                                    : "w-2 sm:w-2.5 bg-white/30 group-hover:bg-white/70 group-hover:scale-125"
+                            }`}
+                        />
+                    </button>
                 ))}
             </div>
         </div>
