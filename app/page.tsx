@@ -1,12 +1,13 @@
 import { Hero } from "@/components/hero/Hero";
 import { MovieRow } from "@/components/movie-row/MovieRow";
+import { OurTeam } from "@/components/team/OurTeam";
 import { categorizedMovies } from "@/data/movies";
 import Link from "next/link";
-import { Sparkles, Film, Flame } from "lucide-react";
+import { Sparkles, Flame, Users } from "lucide-react";
 
 export default function Home() {
     return (
-        <div className="flex flex-col min-h-screen overflow-hidden pb-16 md:pb-8">
+        <div className="flex flex-col min-h-screen overflow-hidden pb-12">
             {/* Cinematic Hero */}
             <Hero />
 
@@ -15,6 +16,7 @@ export default function Home() {
                 <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-2 px-1">
                     {[
                         { label: "Trending", href: "/trending", icon: Flame },
+                        { label: "Our Team", href: "#team", icon: Users },
                         { label: "3D Animation", href: "/categories#3d-animation-productions" },
                         { label: "AI Sci-Fi Films", href: "/categories#ai-cinematic-sci-fi-films" },
                         { label: "Kuku Boy Series", href: "/categories#kuku-boy-superhero-series" },
@@ -28,7 +30,7 @@ export default function Home() {
                             href={tab.href}
                             className="whitespace-nowrap px-4 py-2 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 hover:text-white rounded-xl text-xs sm:text-sm font-semibold border border-white/10 hover:border-white/30 backdrop-blur-md transition-all shadow-md active:scale-95 flex items-center gap-1.5"
                         >
-                            {tab.icon && <tab.icon className="w-3.5 h-3.5 text-red-500" />}
+                            {tab.icon && <tab.icon className="w-3.5 h-3.5 text-pink-500" />}
                             <span>{tab.label}</span>
                         </Link>
                     ))}
@@ -46,6 +48,11 @@ export default function Home() {
                         />
                     </div>
                 ))}
+            </div>
+
+            {/* Our Team & Studio Section */}
+            <div id="team" className="mt-8">
+                <OurTeam />
             </div>
         </div>
     );

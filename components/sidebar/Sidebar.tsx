@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -17,6 +18,8 @@ import {
     Menu,
     X,
     Sparkles,
+    Users,
+    Phone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +30,7 @@ const menuItems = [
     { icon: Tv, label: "Series", href: "/series" },
     { icon: TrendingUp, label: "Trending", href: "/trending" },
     { icon: Grid, label: "Categories", href: "/categories" },
+    { icon: Users, label: "Our Team", href: "/team" },
 ];
 
 const libraryItems = [
@@ -47,18 +51,28 @@ export function Sidebar() {
     return (
         <>
             {/* Mobile Top Header */}
-            <div className="md:hidden fixed top-0 inset-x-0 z-40 px-4 py-3 flex items-center justify-between bg-black/85 backdrop-blur-xl border-b border-white/10">
+            <div className="md:hidden fixed top-0 inset-x-0 z-40 px-4 py-2.5 flex items-center justify-between bg-black/90 backdrop-blur-xl border-b border-white/10">
                 <Link href="/" className="flex items-center gap-2 group">
-                    <span className="text-red-600 font-black text-2xl tracking-tighter drop-shadow-md">
-                        STREAMX
-                    </span>
-                    <span className="text-[10px] bg-red-600/20 text-red-400 font-bold px-1.5 py-0.5 rounded border border-red-500/30">
-                        AI
-                    </span>
+                    <div className="relative h-9 w-32">
+                        <Image
+                            src="/images/boxfylogo.png"
+                            alt="Boxfy AI Creative Morph"
+                            fill
+                            priority
+                            className="object-contain object-left"
+                        />
+                    </div>
                 </Link>
-                <div className="flex items-center gap-3">
-                    <Link href="/search" className="text-zinc-300 hover:text-white p-1.5">
-                        <Search size={22} />
+                <div className="flex items-center gap-2.5">
+                    <a
+                        href="tel:919115511252"
+                        title="Call Boxfy Team"
+                        className="p-2 text-pink-400 hover:text-white bg-pink-600/10 hover:bg-pink-600/20 rounded-lg border border-pink-500/20 transition-colors"
+                    >
+                        <Phone size={18} />
+                    </a>
+                    <Link href="/search" className="text-zinc-300 hover:text-white p-2">
+                        <Search size={20} />
                     </Link>
                     <button
                         type="button"
@@ -82,13 +96,14 @@ export function Sidebar() {
                     >
                         {/* Header */}
                         <div className="flex justify-between items-center px-5 py-4 border-b border-white/10">
-                            <div className="flex items-center gap-2">
-                                <span className="text-red-600 font-black text-2xl tracking-tighter">
-                                    STREAMX
-                                </span>
-                                <span className="text-[10px] bg-red-600/20 text-red-400 font-bold px-1.5 py-0.5 rounded border border-red-500/30">
-                                    STUDIO
-                                </span>
+                            <div className="relative h-10 w-40">
+                                <Image
+                                    src="/images/boxfylogo.png"
+                                    alt="Boxfy AI Creative Morph"
+                                    fill
+                                    priority
+                                    className="object-contain object-left"
+                                />
                             </div>
                             <button
                                 type="button"
@@ -104,7 +119,7 @@ export function Sidebar() {
                         <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
                             <div>
                                 <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest px-2 mb-3">
-                                    Browse
+                                    Browse Platform
                                 </p>
                                 <div className="flex flex-col gap-1.5">
                                     {menuItems.map((item) => {
@@ -117,13 +132,13 @@ export function Sidebar() {
                                                 className={cn(
                                                     "flex items-center gap-4 px-3 py-3 rounded-xl text-base font-semibold transition-all",
                                                     active
-                                                        ? "text-white bg-red-600/20 border border-red-500/30"
+                                                        ? "text-white bg-pink-600/20 border border-pink-500/30"
                                                         : "text-zinc-400 hover:text-white hover:bg-white/5"
                                                 )}
                                             >
                                                 <item.icon
                                                     size={22}
-                                                    className={active ? "text-red-500" : ""}
+                                                    className={active ? "text-pink-500" : ""}
                                                 />
                                                 {item.label}
                                             </Link>
@@ -159,6 +174,17 @@ export function Sidebar() {
                                 </div>
                             </div>
 
+                            {/* Direct Studio Phone Call */}
+                            <div className="border-t border-white/10 pt-4">
+                                <a
+                                    href="tel:919115511252"
+                                    className="flex items-center gap-3 p-3.5 bg-gradient-to-r from-pink-600/20 to-purple-600/20 border border-pink-500/30 rounded-2xl text-pink-400 hover:text-white font-bold text-sm"
+                                >
+                                    <Phone size={20} className="text-pink-500" />
+                                    <span>Call: +91-9115511252</span>
+                                </a>
+                            </div>
+
                             <div className="mt-auto border-t border-white/10 pt-4">
                                 <Link
                                     href="/settings"
@@ -184,19 +210,32 @@ export function Sidebar() {
                 onMouseLeave={() => setIsCollapsed(true)}
             >
                 {/* Logo Branding */}
-                <div className="flex items-center h-20 px-5 mb-4 mt-2">
-                    <Link href="/" className="flex items-center gap-2 overflow-hidden w-full">
-                        <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center shrink-0 shadow-lg shadow-red-600/30 font-black text-xl text-white">
-                            S
-                        </div>
-                        {!isCollapsed && (
-                            <motion.span
+                <div className="flex items-center h-20 px-4 mb-4 mt-2">
+                    <Link href="/" className="flex items-center overflow-hidden w-full">
+                        {isCollapsed ? (
+                            <div className="relative h-9 w-10 mx-auto">
+                                <Image
+                                    src="/images/boxfylogo.png"
+                                    alt="Boxfy AI"
+                                    fill
+                                    priority
+                                    className="object-contain object-left"
+                                />
+                            </div>
+                        ) : (
+                            <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="text-white font-black text-2xl tracking-tighter whitespace-nowrap drop-shadow-md"
+                                className="relative h-10 w-44"
                             >
-                                STREAM<span className="text-red-600">X</span>
-                            </motion.span>
+                                <Image
+                                    src="/images/boxfylogo.png"
+                                    alt="Boxfy AI Creative Morph"
+                                    fill
+                                    priority
+                                    className="object-contain object-left"
+                                />
+                            </motion.div>
                         )}
                     </Link>
                 </div>
@@ -219,19 +258,19 @@ export function Sidebar() {
                                     className={cn(
                                         "flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-200 group relative",
                                         active
-                                            ? "text-white bg-red-600/20 border border-red-500/30 shadow-md shadow-red-600/10"
+                                            ? "text-white bg-gradient-to-r from-pink-600/20 via-purple-600/15 to-transparent border border-pink-500/30 shadow-md shadow-pink-600/10"
                                             : "text-zinc-400 hover:text-white hover:bg-white/5"
                                     )}
                                     title={isCollapsed ? item.label : undefined}
                                 >
                                     {active && (
-                                        <div className="absolute left-0 top-2 bottom-2 w-1 bg-red-600 rounded-r-full shadow-[0_0_10px_rgba(229,9,20,0.8)]" />
+                                        <div className="absolute left-0 top-2 bottom-2 w-1 bg-pink-500 rounded-r-full shadow-[0_0_10px_rgba(236,72,153,0.8)]" />
                                     )}
                                     <item.icon
                                         size={20}
                                         className={cn(
                                             "shrink-0 transition-transform group-hover:scale-110",
-                                            active ? "text-red-500" : ""
+                                            active ? "text-pink-500" : ""
                                         )}
                                     />
                                     {!isCollapsed && (
@@ -280,12 +319,28 @@ export function Sidebar() {
                     </div>
                 </div>
 
-                {/* Bottom Settings Link */}
-                <div className="p-3.5 mt-auto border-t border-white/10">
+                {/* Bottom Studio Contact Phone Call */}
+                <div className="p-3.5 mt-auto border-t border-white/10 flex flex-col gap-2">
+                    <a
+                        href="tel:919115511252"
+                        className={cn(
+                            "flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all group bg-pink-600/10 hover:bg-pink-600/25 border border-pink-500/20 text-pink-400 hover:text-white",
+                        )}
+                        title={isCollapsed ? "+91-9115511252" : undefined}
+                    >
+                        <Phone size={19} className="shrink-0 text-pink-500" />
+                        {!isCollapsed && (
+                            <div className="overflow-hidden">
+                                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Call Studio</span>
+                                <span className="text-xs font-bold text-white whitespace-nowrap">+91-9115511252</span>
+                            </div>
+                        )}
+                    </a>
+
                     <Link
                         href="/settings"
                         className={cn(
-                            "flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all group",
+                            "flex items-center gap-3.5 px-3 py-2 rounded-xl transition-all group",
                             pathname === "/settings"
                                 ? "text-white bg-white/10 border border-white/20"
                                 : "text-zinc-400 hover:text-white hover:bg-white/5"
@@ -305,7 +360,7 @@ export function Sidebar() {
                 {[
                     { icon: Home, label: "Home", href: "/" },
                     { icon: Search, label: "Search", href: "/search" },
-                    { icon: Film, label: "Movies", href: "/movies" },
+                    { icon: Users, label: "Team", href: "/team" },
                     { icon: TrendingUp, label: "Trending", href: "/trending" },
                     { icon: Plus, label: "My List", href: "/my-list" },
                 ].map((item) => {
@@ -321,7 +376,7 @@ export function Sidebar() {
                         >
                             <item.icon
                                 size={19}
-                                className={active ? "text-red-500 drop-shadow-[0_0_8px_rgba(229,9,20,0.6)]" : ""}
+                                className={active ? "text-pink-500 drop-shadow-[0_0_8px_rgba(236,72,153,0.6)]" : ""}
                             />
                             <span className={cn("text-[10px] tracking-tight", active ? "font-bold text-white" : "font-medium")}>
                                 {item.label}
